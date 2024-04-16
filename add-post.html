@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/add-post.css">
+    <title>Tambah Postingan</title>
+</head>
+<body>
+    <h1>Tambah Postingan Baru</h1>
+    <form action="/add-post" method="POST">
+        <label for="title">Judul:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="imageUrl">URL Website:</label><br>
+        <input type="text" id="imageUrl" name="imageUrl" required><br><br>
+        <label for="createdAt">Tanggal Buat:</label><br>
+        <input type="date" id="createdAt" name="createdAt" required><br><br>
+        <input type="submit" value="Tambah Postingan">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#add-post-form').submit(function(e) {
+            e.preventDefault(); // Menghentikan pengiriman form secara default
+
+            // Mengambil nilai dari form
+            const title = $('#title').val();
+            const imageUrl = $('#imageUrl').val();
+            const createdAt = $('#createdAt').val();
+
+            // Kirim data form ke endpoint /add-post menggunakan AJAX
+            $.ajax({
+                url: '/add-post',
+                method: 'POST',
+                data: { title, imageUrl, createdAt },
+                success: function(response) {
+                    // Tambahkan logika untuk menampilkan pesan sukses atau melakukan aksi lain
+                    console.log(response);
+                    // Contoh: redirect ke halaman lain atau muat ulang halaman saat berhasil
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    // Tambahkan logika untuk menampilkan pesan error kepada pengguna
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
