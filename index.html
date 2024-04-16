@@ -812,7 +812,7 @@
           </div>
           <div class="col-lg-4 text-end">
               <!-- Tombol Create New Blog -->
-              <a href="add-post.html" class="btn btn-primary">Create New Blog</a>
+              <a href="http://localhost/tugas/blog/" class="btn btn-primary">Create New Blog</a>
           </div>
       </div>
 
@@ -974,7 +974,8 @@
             </div>
 
             <div class="col-lg-8 mt-5 mt-lg-0">
-              <form action="forms/contact2.php" method="post" role="form" class="php-email-form">
+              <!-- <form action="forms/contact2.php" method="post" role="form" class="php-email-form"> -->
+              <form>
                 <div class="row">
                   <div class="col-md-6 form-group">
                     <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required />
@@ -987,14 +988,11 @@
                   <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required />
                 </div>
                 <div class="form-group mt-3">
-                  <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                  <textarea class="form-control" name="message" rows="5" placeholder="Message" id="pesan" required></textarea>
                 </div>
-                <div class="my-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-                </div>
-                <div class="text-center"> <a href="mailto:nugasriz03@gmail.com"> </a><button type="submit">Send Message</button></div>
+                <div class="my-3" id="success_message"></div>
+                <div class="my-3" id="error_message"></div>
+                <div class="text-center"> <a href="mailto:nugasriz03@gmail.com"> </a><button type="submit" id="submitBtn">Send Message</button></div>
               </form>
             </div>
           </div>
@@ -1049,5 +1047,45 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("#submitBtn").click(function(e){
+            e.preventDefault(); // Menghentikan pengiriman form bawaan
+    
+            // Mendapatkan data dari form
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var subject = $("#subject").val();
+            var message = $("#pesan").val();
+            
+            // Data yang akan dikirimkan dalam format objek
+            var dataToSend = {
+                name: name,
+                email: email,
+                subject: subject,
+                message: message
+            };
+            
+            // Melakukan permintaan AJAX POST
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/tugas/contact/index.php", // Ganti dengan URL yang sesuai
+                data: dataToSend,
+                success: function(response){
+                    // Penanganan jika permintaan berhasil
+                    $("#success_message").html(
+                      "<div class='loading'>Loading</div><div class='error-message'></div><div class='sent-message'>Your message has been sent. Thank you!</div>"
+                    ); // Menampilkan pesan respons
+                },
+                error: function(xhr, status, error){
+                    // Penanganan jika terjadi kesalahan
+                    $("#error_message").html(
+                      "<div class='loading'>Loading</div><div class='error-message'></div><div class='sent-message'>Your message has been sent. Thank you!</div>"
+                    ); // Menampilkan pesan kesalahan
+                }
+            });
+        });
+    });
+    </script>
   </body>
 </html>
